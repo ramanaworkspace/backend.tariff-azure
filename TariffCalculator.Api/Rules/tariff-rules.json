@@ -1,0 +1,15 @@
+[
+  {
+    "country": "India",
+    "htsCode": "0101.21.00",
+    "tariffType": "RECIPROCAL_TARIFF",
+    "rate": 26.0,
+    "notes": "Sample rule matching the provided PDF"
+  },
+  {
+    "country": "China",
+    "htsCode": "0201.10.00",
+    "tariffType": "STANDARD_TARIFF",
+    "rate": 10.0
+  }
+]
