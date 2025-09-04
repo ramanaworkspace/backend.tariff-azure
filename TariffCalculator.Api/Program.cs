@@ -37,19 +37,19 @@ builder.Services.AddCors(opt =>
 var app = builder.Build();
 app.UseCors("any");
 
-//// Migrate or ensure created
-//using (var scope = app.Services.CreateScope())
-//{
-//    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-//    try
-//    {
-//        db.Database.Migrate();
-//    }
-//    catch
-//    {
-//        db.Database.EnsureCreated();
-//    }
-//}
+// Migrate or ensure created
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+    try
+    {
+        db.Database.Migrate();
+    }
+    catch
+    {
+        db.Database.EnsureCreated();
+    }
+}
 // Swagger
 if (app.Environment.IsDevelopment())
 {
