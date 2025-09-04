@@ -31,6 +31,7 @@ public class AdminController : ControllerBase
     }
 
     [HttpPost("rules/reload")]
+    [Consumes("multipart/form-data")]
     public IActionResult Reload()
     {
         _rules.LoadRules();

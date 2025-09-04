@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using QuestPDF.Infrastructure;
 using TariffCalculator.Api.Data;
 using TariffCalculator.Api.Infra;
 using TariffCalculator.Api.Services;
@@ -14,6 +15,8 @@ builder.Services.AddSwaggerGen(c =>
     // Existing configs...
     c.OperationFilter<FormFileOperation>(); // Custom operation filter for IFormFile support
 });
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 var conn = builder.Configuration.GetConnectionString("DefaultConnection");
 if (!string.IsNullOrWhiteSpace(conn))
