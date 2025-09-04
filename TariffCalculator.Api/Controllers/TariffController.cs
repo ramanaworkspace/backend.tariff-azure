@@ -27,9 +27,8 @@ public class TariffController : ControllerBase
     [HttpPost("report")]
     public IActionResult Report([FromBody] TariffInputDto input)
     {
-        return Ok("Success");
-        //var result = _calc.Calculate(input);
-        //var bytes = _pdf.Generate(input, result);
-        //return File(bytes, "application/pdf", "TariffReport.pdf");
+        var result = _calc.Calculate(input);
+        var bytes = _pdf.Generate(input, result);
+        return File(bytes, "application/pdf", "TariffReport.pdf");
     }
 }
