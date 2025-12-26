@@ -18,7 +18,7 @@ jobs:
       - name: Set up .NET
         uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '9.x'
+          dotnet-version: '8.x'
 
       - name: Restore
         run: dotnet restore ./TariffCalculator.sln
@@ -27,7 +27,7 @@ jobs:
         run: dotnet build ./TariffCalculator.sln --configuration Release --no-restore
 
       - name: Publish
-        run: dotnet publish ./TariffCalculator.Api/TariffCalculator.Api.csproj --configuration Release --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        run: dotnet publish ./src/TariffCalculator.Api.csproj --configuration Release --no-build --output ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
       - name: Deploy to Azure WebApp
         uses: azure/webapps-deploy@v2
