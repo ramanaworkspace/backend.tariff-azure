@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: tariffcalculator-api
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: tariffcalculator
+  template:
+    metadata:
+      labels:
+        app: tariffcalculator
+    spec:
+      containers:
+      - name: tariffcalculator-api
+        image: tariffcalculator.azurecr.io/tariffcalculator:1.0
+        ports:
+        - containerPort: 80
+        env:
+        - name: ASPNETCORE_ENVIRONMENT
+          value: "Production"

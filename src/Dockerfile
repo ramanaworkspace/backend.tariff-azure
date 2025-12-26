@@ -2,37 +2,21 @@
 # Build stage
 # =========================
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
-
 WORKDIR /src
 
-# 1️⃣ Copy NuGet config
-# COPY NuGet.config ./
+# Copy solution & project files
+COPY TariffCalculator.sln ./
+COPY src/TariffCalculator.Api.csproj src/
 
-# 2️⃣ Copy ONLY the csproj file (THIS WAS MISSING)
-COPY TariffCalculator.Api.csproj ./
+# Restore
+RUN dotnet restore src/TariffCalculator.Api.csproj
 
-# 3️⃣ Restore dependencies
-RUN dotnet restore TariffCalculator.Api.csproj \
-    --disable-parallel \
-    --source https://api.nuget.org/v3/index.json
-
-# 4️⃣ Copy remaining source code
+# Copy everything else
 COPY . .
 
-# 5️⃣ Build
-RUN dotnet build TariffCalculator.Api.csproj \
-    -c $BUILD_CONFIGURATION \
-    -o /app/build
-
-# =========================
-# Publish stage
-# =========================
-FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-
-RUN dotnet publish TariffCalculator.Api.csproj \
-    -c $BUILD_CONFIGURATION \
+# Publish
+RUN dotnet publish src/TariffCalculator.Api.csproj \
+    -c Release \
     -o /app/publish \
     /p:UseAppHost=false
 
@@ -42,7 +26,7 @@ RUN dotnet publish TariffCalculator.Api.csproj \
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS final
 WORKDIR /app
 
-COPY --from=publish /app/publish .
+COPY --from=build /app/publish .
 
 ENV ASPNETCORE_URLS=http://+:80
 EXPOSE 80
